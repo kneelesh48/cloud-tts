@@ -1,0 +1,7 @@
+output/
+others/
+Jupyter Notebooks/
+.vscode/
+*.ipynb
+*.json
+.env
