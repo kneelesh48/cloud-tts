@@ -23,10 +23,11 @@ It provides a simple and scalable way to generate high-quality speech from text,
 # The service uses deep neural networks to generate speech that is expressive and realistic, making it ideal for a wide range of applications, including virtual assistants, audiobooks, and voiceovers for movies and TV shows.
 
 with st.sidebar:
+    file_name = "audio.wav"
+    file_config = speechsdk.audio.AudioOutputConfig(filename=file_name)
+
     # @st.cache_data
     def list_languages() -> list:
-        file_name = "audio.wav"
-        file_config = speechsdk.audio.AudioOutputConfig(filename=file_name)
         synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=file_config)
         response = synthesizer.get_voices_async().get()
         locales = set([voice.locale for voice in response.voices])
@@ -36,13 +37,12 @@ with st.sidebar:
     language = st.selectbox(
         "Select language",
         options=options,
-        index=options.index("en-US")
+        index=options.index("en-US"),
+        key="language"
     )
 
     # @st.cache_data
     def list_voices(locale: str) -> list:
-        file_name = "audio.wav"
-        file_config = speechsdk.audio.AudioOutputConfig(filename=file_name)
         synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=file_config)
         result = synthesizer.get_voices_async(locale=locale).get()
         voices = sorted(result.voices, key=lambda voice: voice.short_name)
