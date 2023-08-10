@@ -8,21 +8,22 @@ import google.cloud.texttospeech as tts
 
 load_dotenv()
 
-st.set_page_config(page_title="Google WaveNet", page_icon="🔊", layout="wide")
+st.set_page_config(page_title="Google TTS", page_icon="🔊", layout="wide")
 
 with open("static/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 if not os.path.exists("google-service-account.json"):
     url = os.environ.get("GOOGLE_API_KEY_URL")
-    with open("google-service-account.json", "w") as f:
-        f.write(requests.get(url).text)
+    if url:
+        with open("google-service-account.json", "w") as f:
+            f.write(requests.get(url).text)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-service-account.json"
 
 client = tts.TextToSpeechClient()
 
-st.title("Google WaveNet")
+st.title("Google TTS")
 
 wavenet_description = """Google WaveNet is a deep neural network-based generative model for speech synthesis. 
 It uses raw audio waveforms as input and generates high-quality speech in a variety of languages and voices.
