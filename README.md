@@ -3,7 +3,7 @@ A simple streamlit app to test different TTS models from Azure and Google cloud
 ![Azure TTS](screenshots/Azure%20TTS.png)
 
 ### Try online
-[https://cloud-tts.streamlit.app/](https://cloud-tts.streamlit.app/)
+[https://cloud-tts.streamlit.app/azure_tts](https://cloud-tts.streamlit.app/azure_tts)
 
 ### Steps to run locally
 Clone the Repository `git clone https://github.com/kneelesh48/streamlit-tts.git`
