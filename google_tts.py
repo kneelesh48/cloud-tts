@@ -47,9 +47,10 @@ with st.sidebar:
 
     options = list_languages()
     language = st.selectbox(
-        "Select language", 
-        options=options, 
-        index=options.index("en-US")
+        "Select language",
+        options=options,
+        index=options.index("en-US"),
+        key="language"
     )
 
     @st.cache_data
@@ -66,7 +67,12 @@ with st.sidebar:
         return l
 
     options = list_voices(str(language))
-    voice_name = st.radio("Select voice", options=options, index=0, key="voice_name")
+    voice_name = st.radio(
+        "Select voice",
+        options=options,
+        index=0,
+        key="voice_name"
+    )
 
 
 text = st.text_area("Text to synthesize", value=wavenet_description, height=400)
