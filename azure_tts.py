@@ -25,7 +25,9 @@ It provides a simple and scalable way to generate high-quality speech from text,
 with st.sidebar:
     # @st.cache_data
     def list_languages() -> list:
-        synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
+        file_name = "output/audio.wav"
+        file_config = speechsdk.audio.AudioOutputConfig(filename=file_name)
+        synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=file_config)
         response = synthesizer.get_voices_async().get()
         locales = set([voice.locale for voice in response.voices])
         return [l for l in sorted(locales) if l.startswith("en")]
