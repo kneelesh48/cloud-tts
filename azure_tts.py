@@ -41,7 +41,9 @@ with st.sidebar:
 
     # @st.cache_data
     def list_voices(locale: str) -> list:
-        synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
+        file_name = "audio.wav"
+        file_config = speechsdk.audio.AudioOutputConfig(filename=file_name)
+        synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=file_config)
         result = synthesizer.get_voices_async(locale=locale).get()
         voices = sorted(result.voices, key=lambda voice: voice.short_name)
 
@@ -53,7 +55,12 @@ with st.sidebar:
         return l
 
     options = list_voices(str(language))
-    voice_name = st.radio("Select voice", options=options, index=0, key="voice_name")
+    voice_name = st.radio(
+        "Select voice",
+        options=options,
+        index=0,
+        key="voice_name"
+    )
 
 text = st.text_area("Text to synthesize", value=wavenet_description, height=400)
 
