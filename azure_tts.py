@@ -11,11 +11,17 @@ st.set_page_config(page_title="Azure TTS", page_icon="🔊", layout="wide")
 with open("static/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-st.title("Azure TTS")
 speech_config = speechsdk.SpeechConfig(
     subscription=os.environ.get("SPEECH_KEY"),
     region=os.environ.get("SPEECH_REGION")
 )
+
+file_config = speechsdk.audio.AudioOutputConfig(filename="audio.wav")
+
+if not os.path.exists("output"):
+    os.makedirs("output")
+
+st.title("Azure TTS")
 
 wavenet_description = """Microsoft Azure Text-to-Speech is a cloud-based service that allows developers to add natural-sounding speech synthesis to their applications. 
 It provides a simple and scalable way to generate high-quality speech from text, with a variety of voices and languages to choose from.
@@ -23,9 +29,6 @@ It provides a simple and scalable way to generate high-quality speech from text,
 # The service uses deep neural networks to generate speech that is expressive and realistic, making it ideal for a wide range of applications, including virtual assistants, audiobooks, and voiceovers for movies and TV shows.
 
 with st.sidebar:
-    file_name = "audio.wav"
-    file_config = speechsdk.audio.AudioOutputConfig(filename=file_name)
-
     @st.cache_data
     def list_languages() -> list:
         synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=file_config)
@@ -67,8 +70,6 @@ text = st.text_area("Text to synthesize", value=wavenet_description, height=400)
 
 @st.cache_data
 def text_to_wav(voice_name: str, text: str) -> bytes:
-    if not os.path.exists("output"):
-        os.makedirs("output")
     audio_config = speechsdk.audio.AudioOutputConfig(filename=f"output/{voice_name}.wav")
     speech_config.speech_synthesis_voice_name = voice_name
     synthesizer = speechsdk.SpeechSynthesizer(
