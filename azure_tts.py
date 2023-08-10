@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -16,10 +17,10 @@ speech_config = speechsdk.SpeechConfig(
     region=os.environ.get("SPEECH_REGION")
 )
 
-file_config = speechsdk.audio.AudioOutputConfig(filename="audio.wav")
-
 if not os.path.exists("output"):
     os.makedirs("output")
+
+file_config = speechsdk.audio.AudioOutputConfig(filename="output/audio.wav")
 
 st.title("Azure TTS")
 
@@ -30,7 +31,7 @@ It provides a simple and scalable way to generate high-quality speech from text,
 
 with st.sidebar:
     @st.cache_data
-    def list_languages() -> list:
+    def list_languages() -> List[str]:
         synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=file_config)
         response = synthesizer.get_voices_async().get()
         locales = set([voice.locale for voice in response.voices])
@@ -45,7 +46,7 @@ with st.sidebar:
     )
 
     @st.cache_data
-    def list_voices(locale: str) -> list:
+    def list_voices(locale: str) -> List[str]:
         synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=file_config)
         result = synthesizer.get_voices_async(locale=locale).get()
         voices = sorted(result.voices, key=lambda voice: voice.short_name)
