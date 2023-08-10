@@ -26,3 +26,4 @@ Clone the Repository `git clone https://github.com/kneelesh48/streamlit-tts.git`
 * Input text you'd like to systhesize and press Ctrl+Enter to generate audio output of the text.
 * When you switch voices, new output is generated automatically.
 * You can play the audio or download it if you want.
+* List of locales and voices are not hardcoded, they're added to the list as they're made available by the cloud provider
