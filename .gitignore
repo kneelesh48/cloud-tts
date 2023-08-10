@@ -1,6 +1,7 @@
-output/
-others/
 Jupyter Notebooks/
+others/
+output/
+temp/
 .vscode/
 *.ipynb
 *.json
