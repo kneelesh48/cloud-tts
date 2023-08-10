@@ -22,6 +22,7 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-service-account.json"
 
 client = tts.TextToSpeechClient()
 
+
 def unique_languages_from_voices(voices: Sequence[tts.Voice]) -> list:
     language_set = set()
     for voice in voices:
@@ -29,11 +30,13 @@ def unique_languages_from_voices(voices: Sequence[tts.Voice]) -> list:
             language_set.add(language_code)
     return sorted(language_set)
 
+
 @st.cache_data
 def list_languages() -> list:
     response = client.list_voices()
     languages = unique_languages_from_voices(response.voices)
     return [l for l in languages if l.startswith("en")]
+
 
 @st.cache_data
 def list_voices(language_code: str) -> list[str]:
@@ -48,14 +51,12 @@ def list_voices(language_code: str) -> list[str]:
             l.append(f"{name} | {gender.title()}")
     return l
 
+
 @st.cache_data
 def text_to_wav(voice_name: str = "", text: str = ""):
     language_code = "-".join(voice_name.split("-")[:2])
     text_input = tts.SynthesisInput(text=text)
-    voice_params = tts.VoiceSelectionParams(
-        language_code=language_code,
-        name=voice_name
-    )
+    voice_params = tts.VoiceSelectionParams(language_code=language_code, name=voice_name)
     audio_config = tts.AudioConfig(audio_encoding=tts.AudioEncoding.LINEAR16)
 
     client = tts.TextToSpeechClient()
@@ -76,20 +77,10 @@ st.title("Google TTS")
 
 with st.sidebar:
     options = list_languages()
-    language = st.selectbox(
-        "Select language",
-        options=options,
-        index=options.index("en-US"),
-        key="language"
-    )
+    language = st.selectbox("Select language", options=options, index=options.index("en-US"), key="language")
 
-    options = list_voices(str(language))
-    voice_name = st.radio(
-        "Select voice",
-        options=options,
-        index=0,
-        key="voice_name"
-    )
+    options = list_voices(language)
+    voice_name = st.radio("Select voice", options=options, index=0, key="voice_name")
 
 wavenet_description = """Google WaveNet is a deep neural network-based generative model for speech synthesis. 
 It uses raw audio waveforms as input and generates high-quality speech in a variety of languages and voices.
