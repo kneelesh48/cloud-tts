@@ -58,6 +58,8 @@ text = st.text_area("Text to synthesize", value=wavenet_description, height=400)
 
 # @st.cache_data
 def text_to_wav(voice_name: str, text: str) -> bytes:
+    if not os.path.exists("output"):
+        os.makedirs("output")
     audio_config = speechsdk.audio.AudioOutputConfig(filename=f"output/{voice_name}.wav")
     speech_config.speech_synthesis_voice_name = voice_name
     synthesizer = speechsdk.SpeechSynthesizer(
