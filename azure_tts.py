@@ -26,7 +26,7 @@ with st.sidebar:
     file_name = "audio.wav"
     file_config = speechsdk.audio.AudioOutputConfig(filename=file_name)
 
-    # @st.cache_data
+    @st.cache_data
     def list_languages() -> list:
         synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=file_config)
         response = synthesizer.get_voices_async().get()
@@ -41,7 +41,7 @@ with st.sidebar:
         key="language"
     )
 
-    # @st.cache_data
+    @st.cache_data
     def list_voices(locale: str) -> list:
         synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=file_config)
         result = synthesizer.get_voices_async(locale=locale).get()
@@ -65,7 +65,7 @@ with st.sidebar:
 text = st.text_area("Text to synthesize", value=wavenet_description, height=400)
 
 
-# @st.cache_data
+@st.cache_data
 def text_to_wav(voice_name: str, text: str) -> bytes:
     if not os.path.exists("output"):
         os.makedirs("output")
