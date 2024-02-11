@@ -2,6 +2,7 @@ Jupyter Notebooks/
 others/
 output/
 temp/
+venv/
 .vscode/
 *.ipynb
 *.json
