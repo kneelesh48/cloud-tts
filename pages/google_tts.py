@@ -85,6 +85,11 @@ with st.sidebar:
     locale = st.selectbox("Select locale", options=locales2, index=locales2.index("en-US") if language == "en" else 0, key="locale")
 
     voices = list_voices(locale)
+
+    gender = st.selectbox("Select gender", options=['All', 'Female', 'Male'], index=0, key="gender")
+    if gender != "All":
+        voices = [voice for voice in voices if voice.split(' | ')[-1] == gender]
+
     voice_name = st.radio("Select voice", options=voices, index=0, key="voice_name")
 
 wavenet_description = """Google WaveNet is a deep neural network-based generative model for speech synthesis. 
