@@ -15,8 +15,9 @@ with open("static/style.css") as f:
 
 google_api_key_url = os.environ.get("GOOGLE_API_KEY_URL")
 if not os.path.exists("google-service-account.json") and google_api_key_url:
+    response = httpx.get(google_api_key_url, follow_redirects=True)
     with open("google-service-account.json", "w") as f:
-        f.write(httpx.get(google_api_key_url).text)
+        f.write(response.text)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-service-account.json"
 
@@ -95,7 +96,7 @@ with st.sidebar:
 
     gender = st.selectbox("Select gender", options=["All", "Female", "Male"], index=0, key="gender")
     if gender != "All":
-        voices = [voice for voice in voices if voice.split(" | ")[-1] == gender]
+        voices = list(filter(lambda voice: voice.split(" | ")[-1] == gender, voices))
 
     voice_name = st.radio("Select voice", options=voices, index=0, key="voice_name")
 
