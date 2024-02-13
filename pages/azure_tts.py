@@ -76,7 +76,7 @@ with st.sidebar:
 
     gender = st.selectbox("Select gender", options=["All", "Female", "Male"], index=0, key="gender")
     if gender != "All":
-        voices = [voice for voice in voices if voice.split(" | ")[-1] == gender]
+        voices = list(filter(lambda voice: voice.split(" | ")[-1] == gender, voices))
 
     voice_name = st.radio("Select voice", options=voices, index=0, key="voice_name")
 
