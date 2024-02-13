@@ -1,5 +1,4 @@
 import os
-from typing import List
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -24,7 +23,7 @@ file_config = speechsdk.audio.AudioOutputConfig(filename="temp/audio.wav")
 
 
 @st.cache_data
-def list_languages() -> List[str]:
+def list_languages() -> list[str]:
     synthesizer = speechsdk.SpeechSynthesizer(
         speech_config=speech_config,
         audio_config=file_config
@@ -35,7 +34,7 @@ def list_languages() -> List[str]:
 
 
 @st.cache_data
-def list_voices(locale: str) -> List[str]:
+def list_voices(locale: str) -> list[str]:
     synthesizer = speechsdk.SpeechSynthesizer(
         speech_config=speech_config,
         audio_config=file_config
@@ -43,12 +42,7 @@ def list_voices(locale: str) -> List[str]:
     result = synthesizer.get_voices_async(locale=locale).get()
     voices = sorted(result.voices, key=lambda voice: voice.short_name)
 
-    l = []
-    for voice in voices:
-        name = voice.short_name
-        gender = voice.gender.name
-        l.append(f"{name} | {gender}")
-    return l
+    return [f"{voice.short_name} | {voice.gender.name}" for voice in voices]
 
 
 @st.cache_data
@@ -75,6 +69,11 @@ with st.sidebar:
     locale = st.selectbox("Select locale", options=locales2, index=locales2.index("en-US") if language=='en' else 0, key="locale")
 
     voices = list_voices(locale)
+
+    gender = st.selectbox("Select gender", options=['All', 'Female', 'Male'], index=0, key="gender")
+    if gender != "All":
+        voices = [voice for voice in voices if voice.split(' | ')[-1] == gender]
+
     voice_name = st.radio("Select voice", options=voices, index=0, key="voice_name")
 
 wavenet_description = """Microsoft Azure Text-to-Speech is a cloud-based service that allows developers to add natural-sounding speech synthesis to their applications. 
