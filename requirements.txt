@@ -1,3 +1,4 @@
+httpx
 streamlit
 python-dotenv
 google-cloud-texttospeech
