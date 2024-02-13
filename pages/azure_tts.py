@@ -31,7 +31,7 @@ def list_languages() -> List[str]:
     )
     response = synthesizer.get_voices_async().get()
     locales = set([voice.locale for voice in response.voices])
-    return [l for l in sorted(locales) if l.startswith("en")]
+    return sorted(locales)
 
 
 @st.cache_data
@@ -66,11 +66,16 @@ def text_to_wav(voice_name: str, text: str) -> bytes:
 st.title("Azure TTS")
 
 with st.sidebar:
-    options = list_languages()
-    language = st.selectbox("Select language", options=options, index=options.index("en-US"), key="language")
+    locales = list_languages()
 
-    options = list_voices(language)
-    voice_name = st.radio("Select voice", options=options, index=0, key="voice_name")
+    languages = sorted(set([l.split("-")[0] for l in locales]))
+    language = st.selectbox("Select language", options=languages, index=languages.index("en"), key="language")
+
+    regions = [l for l in locales if l.startswith(language)]
+    locale = st.selectbox("Select region", options=regions, index=regions.index("en-US") if language=='en' else 0, key="region")
+
+    voices = list_voices(locale)
+    voice_name = st.radio("Select voice", options=voices, index=0, key="voice_name")
 
 wavenet_description = """Microsoft Azure Text-to-Speech is a cloud-based service that allows developers to add natural-sounding speech synthesis to their applications. 
 It provides a simple and scalable way to generate high-quality speech from text, with a variety of voices and languages to choose from.
