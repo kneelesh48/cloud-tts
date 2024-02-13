@@ -1,7 +1,7 @@
 import os
 from typing import Sequence
 
-import requests
+import httpx
 import streamlit as st
 from dotenv import load_dotenv
 import google.cloud.texttospeech as tts
@@ -16,7 +16,7 @@ with open("static/style.css") as f:
 google_api_key_url = os.environ.get("GOOGLE_API_KEY_URL")
 if not os.path.exists("google-service-account.json") and google_api_key_url:
     with open("google-service-account.json", "w") as f:
-        f.write(requests.get(google_api_key_url).text)
+        f.write(httpx.get(google_api_key_url).text)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-service-account.json"
 
@@ -78,17 +78,17 @@ st.title("Google TTS")
 with st.sidebar:
     locales = list_languages()
 
-    language = sorted(set([l.split("-")[0] for l in locales]))
-    language = st.selectbox("Select language", options=language, index=language.index("en"), key="language")
+    languages = sorted(set([l.split("-")[0] for l in locales]))
+    language = st.selectbox("Select language", options=languages, index=languages.index("en"), key="language")
 
     locales2 = [l for l in locales if l.startswith(language)]
     locale = st.selectbox("Select locale", options=locales2, index=locales2.index("en-US") if language == "en" else 0, key="locale")
 
     voices = list_voices(locale)
 
-    gender = st.selectbox("Select gender", options=['All', 'Female', 'Male'], index=0, key="gender")
+    gender = st.selectbox("Select gender", options=["All", "Female", "Male"], index=0, key="gender")
     if gender != "All":
-        voices = [voice for voice in voices if voice.split(' | ')[-1] == gender]
+        voices = [voice for voice in voices if voice.split(" | ")[-1] == gender]
 
     voice_name = st.radio("Select voice", options=voices, index=0, key="voice_name")
 
