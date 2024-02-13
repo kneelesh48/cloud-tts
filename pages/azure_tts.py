@@ -71,8 +71,8 @@ with st.sidebar:
     languages = sorted(set([l.split("-")[0] for l in locales]))
     language = st.selectbox("Select language", options=languages, index=languages.index("en"), key="language")
 
-    regions = [l for l in locales if l.startswith(language)]
-    locale = st.selectbox("Select region", options=regions, index=regions.index("en-US") if language=='en' else 0, key="region")
+    locales2 = [l for l in locales if l.startswith(language)]
+    locale = st.selectbox("Select locale", options=locales2, index=locales2.index("en-US") if language=='en' else 0, key="locale")
 
     voices = list_voices(locale)
     voice_name = st.radio("Select voice", options=voices, index=0, key="voice_name")
