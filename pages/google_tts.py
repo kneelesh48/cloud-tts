@@ -35,7 +35,7 @@ def unique_languages_from_voices(voices: Sequence[tts.Voice]) -> list:
 def list_languages() -> list:
     response = client.list_voices()
     languages = unique_languages_from_voices(response.voices)
-    return [l for l in languages if l.startswith("en")]
+    return languages
 
 
 @st.cache_data
@@ -76,11 +76,16 @@ def text_to_wav(voice_name: str = "", text: str = ""):
 st.title("Google TTS")
 
 with st.sidebar:
-    options = list_languages()
-    language = st.selectbox("Select language", options=options, index=options.index("en-US"), key="language")
+    locales = list_languages()
 
-    options = list_voices(language)
-    voice_name = st.radio("Select voice", options=options, index=0, key="voice_name")
+    language = sorted(set([l.split("-")[0] for l in locales]))
+    language = st.selectbox("Select language", options=language, index=language.index("en"), key="language")
+
+    regions = [l for l in locales if l.startswith(language)]
+    locale = st.selectbox("Select region", options=regions, index=regions.index("en-US") if language == "en" else 0, key="region")
+
+    voices = list_voices(locale)
+    voice_name = st.radio("Select voice", options=voices, index=0, key="voice_name")
 
 wavenet_description = """Google WaveNet is a deep neural network-based generative model for speech synthesis. 
 It uses raw audio waveforms as input and generates high-quality speech in a variety of languages and voices.
