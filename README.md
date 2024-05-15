@@ -10,7 +10,7 @@ A simple streamlit app to test different TTS models from Azure and Google cloud
 
 ## Steps to run locally
 
-Clone the Repository `git clone https://github.com/kneelesh48/streamlit-tts.git`
+Clone the Repository `git clone https://github.com/kneelesh48/cloud-tts`
 
 Install required packages `pip install -r requirements.txt`
 
