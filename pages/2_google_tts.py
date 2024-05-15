@@ -1,3 +1,5 @@
+"""Google TTS"""
+
 import os
 from typing import Sequence
 
@@ -10,13 +12,13 @@ load_dotenv()
 
 st.set_page_config(page_title="Google TTS", page_icon="🔊", layout="wide")
 
-with open("static/style.css") as f:
+with open("static/style.css", encoding="utf-8") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 google_api_key_url = os.environ.get("GOOGLE_API_KEY_URL")
 if not os.path.exists("google-service-account.json") and google_api_key_url:
     response = httpx.get(google_api_key_url, follow_redirects=True)
-    with open("google-service-account.json", "w") as f:
+    with open("google-service-account.json", "w", encoding="utf-8") as f:
         f.write(response.text)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-service-account.json"
@@ -54,7 +56,7 @@ def list_voices(language_code: str) -> list[str]:
 
 
 @st.cache_data
-def text_to_wav(voice_name: str = "", text: str = ""):
+def text_to_wav(voice_name: str = "", text: str = "") -> bytes:
     language_code = "-".join(voice_name.split("-")[:2])
     text_input = tts.SynthesisInput(text=text)
     voice_params = tts.VoiceSelectionParams(language_code=language_code, name=voice_name)
@@ -76,7 +78,7 @@ def text_to_wav(voice_name: str = "", text: str = ""):
 
 st.title("Google TTS")
 
-wavenet_description = """Google WaveNet is a deep neural network-based generative model for speech synthesis. 
+wavenet_description = """Google WaveNet is a deep neural network-based generative model for speech synthesis.
 It uses raw audio waveforms as input and generates high-quality speech in a variety of languages and voices.
 """
 # WaveNet is known for its ability to produce natural-sounding speech with a high degree of expressiveness and realism.
@@ -102,7 +104,7 @@ with st.sidebar:
 
 text = st.text_area("Text to synthesize", value=wavenet_description, height=400)
 
-audio_content = text_to_wav(voice_name=str(voice_name).split(" | ")[0], text=text)
+audio_content = text_to_wav(voice_name=str(voice_name).split(" | ", maxsplit=1)[0], text=text)
 if isinstance(audio_content, bytes):
     st.audio(audio_content, format="audio/wav")
 else:

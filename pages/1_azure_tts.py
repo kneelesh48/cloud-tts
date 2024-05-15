@@ -1,3 +1,5 @@
+"""Azure TTS"""
+
 import os
 
 import streamlit as st
@@ -8,7 +10,7 @@ load_dotenv()
 
 st.set_page_config(page_title="Azure TTS", page_icon="🔊", layout="wide")
 
-with open("static/style.css") as f:
+with open("static/style.css", encoding="utf-8") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 if not os.path.exists("temp"):
@@ -58,7 +60,7 @@ def text_to_wav(voice_name: str, text: str) -> bytes:
 
 st.title("Azure TTS")
 
-wavenet_description = """Microsoft Azure Text-to-Speech is a cloud-based service that allows developers to add natural-sounding speech synthesis to their applications. 
+wavenet_description = """Microsoft Azure Text-to-Speech is a cloud-based service that allows developers to add natural-sounding speech synthesis to their applications.
 It provides a simple and scalable way to generate high-quality speech from text, with a variety of voices and languages to choose from.
 """
 # The service uses deep neural networks to generate speech that is expressive and realistic, making it ideal for a wide range of applications, including virtual assistants, audiobooks, and voiceovers for movies and TV shows.
@@ -82,7 +84,7 @@ with st.sidebar:
 
 text = st.text_area("Text to synthesize", value=wavenet_description, height=400)
 
-audio_content = text_to_wav(voice_name=str(voice_name).split(" | ")[0], text=text)
+audio_content = text_to_wav(voice_name=str(voice_name).split(" | ", maxsplit=1)[0], text=text)
 if isinstance(audio_content, bytes):
     st.audio(audio_content, format="audio/wav")
 else:
