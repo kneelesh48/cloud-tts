@@ -118,11 +118,12 @@ with st.sidebar:
 
     voices = list_voices(locale)
 
-    gender = st.selectbox("Select gender", options=["All", "Female", "Male"], index=0, key="gender")
+    genders = ["All", "Female", "Male"]
+    gender = st.selectbox("Select gender", options=genders, index=genders.index("Female"), key="gender")
     if gender != "All":
         voices = list(filter(lambda voice: voice.split(" | ")[-1] == gender, voices))
 
-    voice_name = st.radio("Select voice", options=voices, index=0, key="voice_name")
+    voice_name = st.radio("Select voice", options=voices, index=voices.index("en-US-Ava:DragonHDLatestNeural | Female") if locale == "en-US" else 0, key="voice_name")
 
 text = st.text_area("Text to synthesize", value=wavenet_description, height=400)
 

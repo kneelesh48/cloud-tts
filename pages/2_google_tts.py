@@ -137,7 +137,8 @@ with st.sidebar:
 
     voices = list_voices(locale)
 
-    gender = st.selectbox("Select gender", options=["All", "Female", "Male"], index=0, key="gender")
+    genders = ["All", "Female", "Male"]
+    gender = st.selectbox("Select gender", options=genders, index=genders.index("Female"), key="gender")
     if gender != "All":
         voices = list(filter(lambda voice: voice.split(" | ")[-1] == gender, voices))
 
