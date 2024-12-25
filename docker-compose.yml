@@ -1,0 +1,17 @@
+services:
+  cloud-tts:
+    container_name: cloud-tts
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cloud-tts
+    environment:
+      - SPEECH_KEY
+      - SPEECH_REGION
+      - GOOGLE_API_KEY_URL
+      - ELEVENLABS_API_KEY
+      - PLAYHT_USER_ID
+      - PLAYHT_API_KEY
+    ports:
+      - 8501:8501
+    restart: unless-stopped

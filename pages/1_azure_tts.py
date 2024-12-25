@@ -1,4 +1,5 @@
 """Azure TTS"""
+# https://learn.microsoft.com/en-us/azure/ai-services/speech-service/get-started-text-to-speech
 
 import os
 
@@ -24,7 +25,7 @@ file_config = speechsdk.audio.AudioOutputConfig(filename="temp/audio.wav")
 
 
 @st.cache_data
-def list_languages() -> list[str]:
+def list_locales() -> list[str]:
     synthesizer = speechsdk.SpeechSynthesizer(
         speech_config=speech_config,
         audio_config=file_config
@@ -60,13 +61,54 @@ def text_to_wav(voice_name: str, text: str) -> bytes:
 
 st.title("Azure TTS")
 
-wavenet_description = """Microsoft Azure Text-to-Speech is a cloud-based service that allows developers to add natural-sounding speech synthesis to their applications.
-It provides a simple and scalable way to generate high-quality speech from text, with a variety of voices and languages to choose from.
+wavenet_description = """I had a dream we were sippin' whiskey neat
+Highest floor, The Bowery, nowhere's high enough
+Somewhere along the lines we stopped seein' eye to eye
+You were stayin' out all night and I had enough
+No, I don't wanna know where you been or where you're goin'
+But I know I won't be home, and you'll be on your own
+Who's gonna walk you through the dark side of the mornin'?
+Who's gonna rock you when the sun won't let you sleep?
+Who's wakin' up to drive you home when you're drunk and all alone?
+Who's gonna walk you through the dark side of the mornin'?
+It ain't me (The Bowery)
+(Whiskey neat, grateful, I'm so grateful, I)
+It ain't me (the Bowery)
+(Whiskey neat, grateful, I'm so grateful, I)
+It ain't me (the Bowery)
+It ain't me (the Bowery)
+(Whiskey neat, grateful, I'm so grateful, I)
+It ain't me
+I had a dream, we were back to 17
+Summer nights and The Libertines, never growin' up
+I'll take with me the Polaroids and the memories
+But you know I'm gonna leave behind the worst of us
+Who's gonna walk you through the dark side of the mornin'?
+Who's gonna rock you when the sun won't let you sleep?
+Who's wakin' up to drive you home when you're drunk and all alone?
+Who's gonna walk you through the dark side of the mornin'?
+It ain't me, no, no
+It ain't me, no, no
+It ain't me, no, no
+Who's gonna walk you through the dark side of the mornin'?
+It ain't me (the Bowery)
+(Whiskey neat, grateful, I'm so grateful, I)
+It ain't me (the Bowery)
+It ain't me (grateful, I'm so grateful, I)
+Ah, ooh (the Bowery)
+Ah, ooh (whiskey neat, grateful, I'm so grateful, I)
+Ah, ooh (it ain't me, the Bowery)
+Ah, oh (whiskey neat, grateful, I'm so grateful, I)
+It ain't me (the Bowery)
+(Whiskey neat, grateful, I'm so grateful, I)
+It ain't me, na, na, na, na-na, the Bowery
+Na, na, na, na-na, whiskey neat (grateful, I'm so grateful, I)
+It ain't me
 """
 # The service uses deep neural networks to generate speech that is expressive and realistic, making it ideal for a wide range of applications, including virtual assistants, audiobooks, and voiceovers for movies and TV shows.
 
 with st.sidebar:
-    locales = list_languages()
+    locales = list_locales()
 
     languages = sorted(set([l.split("-")[0] for l in locales]))
     language = st.selectbox("Select language", options=languages, index=languages.index("en"), key="language")

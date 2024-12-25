@@ -78,8 +78,49 @@ def text_to_wav(voice_name: str = "", text: str = "") -> bytes:
 
 st.title("Google TTS")
 
-wavenet_description = """Google WaveNet is a deep neural network-based generative model for speech synthesis.
-It uses raw audio waveforms as input and generates high-quality speech in a variety of languages and voices.
+wavenet_description = """I had a dream we were sippin' whiskey neat
+Highest floor, The Bowery, nowhere's high enough
+Somewhere along the lines we stopped seein' eye to eye
+You were stayin' out all night and I had enough
+No, I don't wanna know where you been or where you're goin'
+But I know I won't be home, and you'll be on your own
+Who's gonna walk you through the dark side of the mornin'?
+Who's gonna rock you when the sun won't let you sleep?
+Who's wakin' up to drive you home when you're drunk and all alone?
+Who's gonna walk you through the dark side of the mornin'?
+It ain't me (The Bowery)
+(Whiskey neat, grateful, I'm so grateful, I)
+It ain't me (the Bowery)
+(Whiskey neat, grateful, I'm so grateful, I)
+It ain't me (the Bowery)
+It ain't me (the Bowery)
+(Whiskey neat, grateful, I'm so grateful, I)
+It ain't me
+I had a dream, we were back to 17
+Summer nights and The Libertines, never growin' up
+I'll take with me the Polaroids and the memories
+But you know I'm gonna leave behind the worst of us
+Who's gonna walk you through the dark side of the mornin'?
+Who's gonna rock you when the sun won't let you sleep?
+Who's wakin' up to drive you home when you're drunk and all alone?
+Who's gonna walk you through the dark side of the mornin'?
+It ain't me, no, no
+It ain't me, no, no
+It ain't me, no, no
+Who's gonna walk you through the dark side of the mornin'?
+It ain't me (the Bowery)
+(Whiskey neat, grateful, I'm so grateful, I)
+It ain't me (the Bowery)
+It ain't me (grateful, I'm so grateful, I)
+Ah, ooh (the Bowery)
+Ah, ooh (whiskey neat, grateful, I'm so grateful, I)
+Ah, ooh (it ain't me, the Bowery)
+Ah, oh (whiskey neat, grateful, I'm so grateful, I)
+It ain't me (the Bowery)
+(Whiskey neat, grateful, I'm so grateful, I)
+It ain't me, na, na, na, na-na, the Bowery
+Na, na, na, na-na, whiskey neat (grateful, I'm so grateful, I)
+It ain't me
 """
 # WaveNet is known for its ability to produce natural-sounding speech with a high degree of expressiveness and realism.
 # It has been used in a variety of applications, including virtual assistants, audiobooks, and voiceovers for movies and TV shows.
